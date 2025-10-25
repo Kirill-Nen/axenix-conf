@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>УткиУУУ</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header style="display:flex; align-items:center; background:#000; padding:10px; border-bottom:2px solid #FFD700;">
+    <img src="task_01k8bwxtxbedarkdhgh516kx3c_1761336096_img_1.webp" alt="Лого" style="height:100px; margin-right:30px;">
+    <h1 style="color:#FFD700; margin:0;">УткиУУУ</h1>
+  </header>
+
+  <div id="room-section">
+    <input type="text" id="username" placeholder="Ваше имя">
+    <input type="text" id="roomid" placeholder="ID комнаты">
+    <input type="password" id="room-password" placeholder="Пароль">
+    <button id="join-btn">Войти в комнату</button>
+  </div>
+
+  <div id="chat-section" style="display:none">
+    <div id="video-grid"></div>
+    <div id="users-chat-panel">
+      <div id="users"></div>
+      <div id="chat">
+        <div id="messages"></div>
+        <div style="display:flex; gap:5px;">
+          <input type="text" id="msg-input" placeholder="Введите сообщение">
+          <button id="send-msg">Отправить</button>
+        </div>
+        <div style="margin-top:10px;">
+        <button id="toggle-video">Видео Вкл/Выкл</button>
+        <button id="toggle-mic">Микрофон Вкл/Выкл</button>
+      </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script src="client.js"></script>
+</body>
+</html>
