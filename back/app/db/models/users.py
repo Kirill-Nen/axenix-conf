@@ -1,8 +1,8 @@
 from sqlalchemy import Column, String, Integer
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import create_access_token
 
 from ..base import Base
+from ...auth import create_access_token
 
 
 class User(Base):
@@ -33,4 +33,4 @@ class User(Base):
         return check_password_hash(self.password, password)
     
     def create_auth_token(self) -> str:
-        return create_access_token(identity=self.id)
+        return create_access_token({'id': self.id})

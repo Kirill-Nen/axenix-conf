@@ -35,7 +35,6 @@ class UserRepository:
         return True if not result.first() else False
     
     @staticmethod
-    def get(*args) -> Union[User, None]:
-        result = executeQuery(select(User).where(*args))
-        result = result.scalar_one_or_none()
-        return result
+    def get(condition) -> Union[User, None]:
+        result = executeQuery(select(User).where(condition))
+        return result.first()

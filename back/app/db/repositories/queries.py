@@ -6,7 +6,7 @@ from ..session import create_session
 
 def executeQuery(query: Executable) -> Result | None:
     session = create_session()
-    result = session.execute(query)
+    result = session.execute(query).scalars()
     session.commit()
     return result
     
