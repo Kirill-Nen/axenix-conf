@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="styleReg.css">
+</head>
+<body>
+    <header>
+        <img src="../task_01k8bwxtxbedarkdhgh516kx3c_1761336096_img_1.webp" alt="Лого" style="height:100px; margin-right:30px;">
+        <h1 style="color:#FFD700; margin:0;">УткиУУУ</h1>
+    </header>
+    <script>
+    //localStorage.removeItem('auth_token')
+    let token = localStorage.getItem('auth_token') 
+
+    async function getToken(token) {
+        const response = await fetch("http://6b004a40-5ec8-419b-be3d-52fb21ad582c.tunnel4.com/api/users/validate_token", {
+            method: "POST",
+            headers:  { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                auth_token: token
+            }),
+            credentials:"include",
+        })
+        const checkToken = await response.json()
+
+        if (checkToken.success) {
+            window.location.href = '/'
+        }
+    }
+
+    if (token) {
+        getToken(token)
+    } else {
+        const mainRegElem = document.createElement('main')
+        mainRegElem.innerHTML = `
+            <div>
+                <button id="regBtn">Регистрация</button>
+                <button id="loginBtn">Вход</button>
+            </div>
+        `;
+        document.querySelector('body').appendChild(mainRegElem)
+
+
+        document.getElementById('regBtn').addEventListener('click', () => {
+            const modal = document.createElement('div')
+            modal.classList.add('modal')
+            modal.innerHTML = `
+                
+                <form id="formRegistration">
+                    <span id="span1">✕</span>
+                    <h3>Регистрация</h3>
+                    <label>введите имя:</label>
+                    <input type='text' id="username" required /><br />
+                    <label>введите почту:</label>
+                    <input type='email' id="email" required /><br />
+                    <label>введите пароль:</label>
+                    <input type='password' id="password" required /><br />
+
+                    <button id="sendBtn">Отправить</button>
+                </form>
+            `
+
+            document.querySelector('body').appendChild(modal)
+
+            document.querySelector('#span1').addEventListener('click', () => {
+                document.querySelector('body').removeChild(modal)
+            })
+
+            const inpUsername = document.querySelector('#username')
+            const inpEmail = document.querySelector('#email')
+            const inpPassword = document.querySelector('#password')
+
+            document.getElementById('sendBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                const RegData = {
+                    username: inpUsername.value,
+                    email: inpEmail.value,
+                    password: inpPassword.value
+                }
+
+                document.querySelector('form').reset();
+                (async function setRegForm(RegData) {
+                   const res = await fetch("http://6b004a40-5ec8-419b-be3d-52fb21ad582c.tunnel4.com/api/users/register", {
+                    method: "POST",
+                    headers:  { "Content-Type": "application/json" },
+                    body: JSON.stringify(RegData),
+                    credentials: "include"
+                   }) 
+                   const data = await res.json()
+
+                   if (data.success) {
+                    localStorage.setItem('auth_token', data.token)
+                    window.location.href = '/'
+                   } else {
+                    alert('Данный пользвоатель существует')
+                   }
+                    
+                })(RegData)
+            })
+
+        })
+
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            const modal = document.createElement('div')
+            modal.classList.add('modal')
+            modal.innerHTML = `
+                <form id="formRegistration">
+                    <span id="span2">✕</span>
+                    <h3>Вход</h3>
+                    <label>введите имя:</label>
+                    <input type='text' id="username" required /><br />
+                    <label>введите пароль:</label>
+                    <input type='password' id="password" required /><br />
+
+                    <button id="sendBtn">Отправить</button>
+                </form>
+            `
+
+            document.querySelector('body').appendChild(modal)
+
+            document.querySelector('#span2').addEventListener('click', () => {
+                document.querySelector('body').removeChild(modal)
+            })
+
+            const inpUsername = document.querySelector('#username')
+            const inpPassword = document.querySelector('#password')
+
+            document.getElementById('sendBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                const RegData = {
+                    username: inpUsername.value,
+                    password: inpPassword.value
+                }
+
+                document.querySelector('form').reset();
+                (async function setRegForm(RegData) {
+                   const res = await fetch("http://6b004a40-5ec8-419b-be3d-52fb21ad582c.tunnel4.com/api/users/login", {
+                    method: "POST",
+                    headers:  { "Content-Type": "application/json" },
+                    body: JSON.stringify(RegData),
+                    credentials: "include"
+                   }) 
+                   const data = await res.json()
+                   console.log(data);
+
+                   if (data.success) {
+                    localStorage.setItem('auth_token', data.token)
+                    window.location.href = '/'
+                   } else {
+                    alert('Введены некорректные данные')
+                   }
+                   
+                    
+                })(RegData)
+            })
+        })
+    }
+  </script>
+</body>
+</html>

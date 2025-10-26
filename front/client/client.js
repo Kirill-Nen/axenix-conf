@@ -14,6 +14,8 @@ const videoGrid = document.getElementById("video-grid");
 let roomId, userName;
 let localStream;
 
+if (!localStorage.getItem('auth_token')) {window.location.href = '/registration'}
+
 // Подключаемся к камере и микрофону
 async function startMedia() {
   try {
@@ -170,3 +172,4 @@ document.getElementById("toggle-mic").onclick = () => {
   localStream.getAudioTracks()[0].enabled = !localStream.getAudioTracks()[0].enabled;
   socket.emit("update-status", { muted: !localStream.getAudioTracks()[0].enabled });
 };
+

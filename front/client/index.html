@@ -17,6 +17,9 @@
     <input type="text" id="roomid" placeholder="ID комнаты">
     <input type="password" id="room-password" placeholder="Пароль">
     <button id="join-btn">Войти в комнату</button>
+    <button id="exit" onclick="localStorage.removeItem('auth_token');
+  window.location.href = '/registration'
+  console.log('hello');">Выход</button>
   </div>
 
   <div id="chat-section" style="display:none">
@@ -36,7 +39,6 @@
       </div>
     </div>
   </div>
-</body>
 <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 <script src="client.js"></script>
 </body>
